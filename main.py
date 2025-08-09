@@ -14,7 +14,7 @@ class Client(commands.Bot):
         try:
             guild = discord.Object(id=1398401093809213504)
             synced = await self.tree.sync()
-            print(f'Synced {len(synced)} command to guild {guild.id}')
+            print(f'Synced {len(synced)} global command(s).')
 
         except Exception as e:
             print(f'error with syncing commands: {e}')
@@ -40,22 +40,21 @@ client = Client(command_prefix="!", intents=intents)
 
 
 
-GUILD_ID = discord.Object(id=1398401093809213504)
 
 
 #SLASH NO INPUT
-@client.tree.command(name="hello", description="Ill say hello!", guild=GUILD_ID)
+@client.tree.command(name="hello", description="Ill say hello!",  )
 async def sayhello(interaction: discord.Interaction):
     await interaction.response.send_message("Hello!")
 
 
 #SLASH WITH INPUT
-@client.tree.command(name="printer", description="I will say whatever you tell me!", guild=GUILD_ID)
+@client.tree.command(name="printer", description="I will say whatever you tell me!",  )
 async def printer(interaction: discord.Interaction, printer: str):
     await interaction.response.send_message(printer)
 
 #EMBED
-@client.tree.command(name="cute-doggy", description="This is a rickroll", guild=GUILD_ID)
+@client.tree.command(name="cute-doggy", description="This is a rickroll",  )
 async def printer(interaction: discord.Interaction):
     embed = discord.Embed(title="Cute Dog", url="https://www.youtube.com/watch?v=j5a0jTc9S10", description="Just a very cute dog", color=discord.Color.blue())
     embed.set_thumbnail(url="https://www.pawlovetreats.com/cdn/shop/articles/pembroke-welsh-corgi-puppy_600x.jpg?v=1628638716")
@@ -73,13 +72,13 @@ async def printer(interaction: discord.Interaction):
 #       await button.response.send_message("Button clicked!")
 
 
-#@client.tree.command(name="button", description="displays a button", guild=GUILD_ID)
+#@client.tree.command(name="button", description="displays a button",  )
 #async def myButton(interaction: discord.Interaction):
 #    await interaction.response.send_message(view=View())
 
 
 #Gives a role to a member
-@client.tree.command(name="give_role", description="Type the role you would like to give and to which user", guild=GUILD_ID)
+@client.tree.command(name="give_role", description="Type the role you would like to give and to which user",  )
 async def assign_role(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     try:
         await member.add_roles(role)
@@ -89,7 +88,7 @@ async def assign_role(interaction: discord.Interaction, member: discord.Member, 
     except discord.HTTPException:
         await interaction.response.send_message('An error occurred while assigning the role. Please try again later.')
 
-@client.tree.command(name="remove_role", description="Type the role you would like remove from a user and which user you would like to remove it from", guild=GUILD_ID)
+@client.tree.command(name="remove_role", description="Type the role you would like remove from a user and which user you would like to remove it from",  )
 async def assign_role(interaction: discord.Interaction, member: discord.Member, role: discord.Role):
     try:
         await member.remove_roles(role)
@@ -101,7 +100,7 @@ async def assign_role(interaction: discord.Interaction, member: discord.Member, 
 
 
 
-@client.tree.command(name="ban_user", description="Select the user you would like to ban and the reason", guild=GUILD_ID)
+@client.tree.command(name="ban_user", description="Select the user you would like to ban and the reason",  )
 async def ban(interaction: discord.Interaction, member: discord.Member, reason: str = ""):
     try:
         await member.ban(reason=reason)
@@ -112,7 +111,7 @@ async def ban(interaction: discord.Interaction, member: discord.Member, reason: 
         await interaction.response.send_message('An error occurred while banning the user. Please try again later.')
 
 
-@client.tree.command(name="unban_user", description="Unban a user by their user ID and provide a reason", guild=GUILD_ID)
+@client.tree.command(name="unban_user", description="Unban a user by their user ID and provide a reason",  )
 async def unban_user(interaction: discord.Interaction, user: discord.User, reason: str = ""):
     try:
         await interaction.guild.unban(user, reason=reason)
@@ -125,12 +124,12 @@ async def unban_user(interaction: discord.Interaction, user: discord.User, reaso
 
 banned_words = set()
 
-@client.tree.command(name="ban-words", description="Add a word to the banned words list", guild=GUILD_ID)
+@client.tree.command(name="ban-words", description="Add a word to the banned words list",  )
 async def ban_words(interaction: discord.Interaction, word: str):
     banned_words.add(word.lower())
     await interaction.response.send_message(f'Added "{word}" to the banned words list.')
 
-@client.tree.command(name="unban-words", description="Remove a word from the banned words list", guild=GUILD_ID)
+@client.tree.command(name="unban-words", description="Remove a word from the banned words list",  )
 async def unban_words(interaction: discord.Interaction, word: str):
     if word.lower() in banned_words:
         banned_words.remove(word.lower())
@@ -138,7 +137,7 @@ async def unban_words(interaction: discord.Interaction, word: str):
     else:
         await interaction.response.send_message(f'"{word}" is not in the banned words list.')
 
-@client.tree.command(name="list-banned-words", description="List all banned words", guild=GUILD_ID)
+@client.tree.command(name="list-banned-words", description="List all banned words",  )
 async def list_banned_words(interaction: discord.Interaction):
     if banned_words:
         await interaction.response.send_message("Banned words: " + ", ".join(banned_words))
@@ -162,14 +161,14 @@ async def on_message(message):
 
 
 
-@client.tree.command(name="dice-roll", description="Rolls a Dice", guild=GUILD_ID)
+@client.tree.command(name="dice-roll", description="Rolls a Dice",  )
 async def roll_dice(interaction: discord.Interaction):
     roll=random.randint(1, 6)
     await interaction.response.send_message(f"{roll} was rolled")
 
 
 
-@client.tree.command(name="coin-flip", description="Flip a coin", guild=GUILD_ID)
+@client.tree.command(name="coin-flip", description="Flip a coin",  )
 async def flip_coin(interaction: discord.Interaction):
     heads="Heads"
     tails="Tails"
@@ -178,7 +177,7 @@ async def flip_coin(interaction: discord.Interaction):
     await interaction.response.send_message(f"{pick_side}")
 
 
-@client.tree.command(name="ultimate_timeout", description="They can't chat or join voice channels for 28 days", guild=GUILD_ID)
+@client.tree.command(name="ultimate_timeout", description="They can't chat or join voice channels for 28 days",  )
 async def ultimate_timeout(interaction: discord.Interaction, member: discord.Member, reason: str = ""):
     from datetime import datetime, timedelta, timezone
     try:
@@ -199,7 +198,7 @@ async def ultimate_timeout(interaction: discord.Interaction, member: discord.Mem
 
 
 welcome_message_global = None
-@client.tree.command(name="welcome", description="Type a welcome message that will be privately sent when a new user joins", guild=GUILD_ID)
+@client.tree.command(name="welcome", description="Type a welcome message that will be privately sent when a new user joins",  )
 async def welcome(interaction: discord.Interaction, welcome_message: str = ""):
     global welcome_message_global
     if not welcome_message:
@@ -228,8 +227,7 @@ async def on_guild_join(guild: discord.Guild):
 
 
 
-client.run('My secret discord bot token')
-
+client.run('secret discord bot token')
 
 
 
