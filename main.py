@@ -227,7 +227,7 @@ async def on_guild_join(guild: discord.Guild):
 
 
 
-client.run('secret discord bot token')
+client.run('my discord bot token')
 
 
 
