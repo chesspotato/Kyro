@@ -1,5 +1,5 @@
 # Kyro
-Kyro is a discord bot with many commands and features I took me a while to make and this is the first ever bot I have made It is also made entirly in python using the discord.py library
+Kyro is a discord bot with many commands and features I took me a while to make and this is the first ever bot I have made It is also made entirly in python using the discord.py library, https://discord.com/oauth2/authorize?client_id=1394064403854266561
 Commands include:
 /hello: Ill say hello,
 /printer: I will say whatever you tell me!,
