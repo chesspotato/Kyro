@@ -6,6 +6,12 @@ from discord.ext import commands
 from discord import app_commands
 import json
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TOKEN = os.getenv('DISCORD_TOKEN')
+
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -227,7 +233,7 @@ async def on_guild_join(guild: discord.Guild):
 
 
 
-client.run('my discord bot token')
+client.run(TOKEN)
 
 
 
