@@ -3,14 +3,11 @@ from discord.ext import commands
 from discord import Interaction, app_commands
 import random
 from discord.ext import commands
-from discord import app_commands
 import json
 import os
-from dotenv import load_dotenv
+from discord import app_commands
 
-load_dotenv()
 
-TOKEN = os.getenv('DISCORD_TOKEN')
 
 
 class Client(commands.Bot):
@@ -167,20 +164,87 @@ async def on_message(message):
 
 
 
-@client.tree.command(name="dice-roll", description="Rolls a Dice",  )
-async def roll_dice(interaction: discord.Interaction):
-    roll=random.randint(1, 6)
+@client.tree.command(name="dice-roll", description="Rolls as many dice as you want (1–6)")
+async def roll_dice(interaction: discord.Interaction, amountofdice: str = ""):
+    amount = amountofdice.lower()
+
+    if amount in ("1", "one"):
+        roll = random.randint(1, 6)
+    elif amount in ("2", "two"):
+        roll = random.randint(2, 12)
+    elif amount in ("3", "three"):
+        roll = random.randint(3, 18)
+    elif amount in ("4", "four"):
+        roll = random.randint(4, 24)
+    elif amount in ("5", "five"):
+        roll = random.randint(5, 30)
+    elif amount in ("6", "six"):
+        roll = random.randint(6, 36)
+    else:
+        await interaction.response.send_message(
+            "Please input a number from 1 to 6 — I don't own that many dice!")
+        return
+
     await interaction.response.send_message(f"{roll} was rolled")
+        
+
+    
+@client.tree.command(name="normal-dice-roll", description="Rigged Dice Roll")
+async def rigged_dice(interaction: discord.Interaction, numberrolled: int= None):
+    if numberrolled is None:
+         await interaction.response.send_message("Please provide how many dice you want to roll (>ᴗ•)")
+         return
+    rigged_roll = random.randint(1, 100)
+
+    if rigged_roll == 69:
+        await interaction.response.send_message(f"Cheater you rigged it to roll {numberrolled}! 1% chance")
+    else:
+        await interaction.response.send_message(f"{numberrolled} was rolled.")
+    
 
 
 
-@client.tree.command(name="coin-flip", description="Flip a coin",  )
-async def flip_coin(interaction: discord.Interaction):
+
+
+
+
+
+@client.tree.command(name="coin-flip", description="Flip a Coin",)
+async def flip_coin(interaction: discord.Interaction, amountofcoins: str= ""):
     heads="Heads"
     tails="Tails"
     sides = [heads, tails]
     pick_side= random.choice(sides)
     await interaction.response.send_message(f"{pick_side}")
+
+
+
+
+@client.tree.command(name="normal-coin-flip", description="Rigged Coin Flip")
+@app_commands.choices(whichside=[
+    app_commands.Choice(name="Heads", value="heads"),
+    app_commands.Choice(name="Tails", value="tails")
+])
+async def choose(interaction: discord.Interaction, whichside: str):
+    if whichside == "heads":
+        rigged_flip = random.randint(1, 200)
+        if rigged_flip == 42:
+            await interaction.response.send_message("Cheater you rigged it to flip Heads 0.5% chance")
+        else: 
+            await interaction.response.send_message("Heads.")
+    elif whichside == "tails":
+        rigged_flip = random.randint(1, 200)
+        if rigged_flip == 42:
+            await interaction.response.send_message("Cheater you rigged it to flip Tails 0.5% chance")
+        else: 
+            await interaction.response.send_message("Tails.")
+
+
+
+
+
+
+
 
 
 @client.tree.command(name="ultimate_timeout", description="They can't chat or join voice channels for 28 days",  )
@@ -233,7 +297,8 @@ async def on_guild_join(guild: discord.Guild):
 
 
 
-client.run(TOKEN)
+client.run('DISCORD_TOKEN')
+
 
 
 
