@@ -15,4 +15,6 @@ Commands include:
 /coin-flip: Flip a coin,
 /ultimate_timeout: They can't chat or join voice channels for 28 days,
 /welcome: Type a welcome message that will be privately sent when a new user joins,
+/normal-coin-flip: Rigged Coin Flip,
+/normal-dice-roll: Rigged Dice Roll
 
